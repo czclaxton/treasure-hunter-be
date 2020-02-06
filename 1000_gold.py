@@ -73,11 +73,12 @@ ep_status = 'status/'
 ep_init = 'init/'
 ep_move = 'move/'
 
-param = {'Authorization': 'Token xxx'}
+param = {'Authorization': 'Token e91091807dc50e6bf25669440c1b4fc3ebaf2aaa'}
 
 init_response = requests.get(adv_url+ep_init, headers=param)
 init_res = init_response.text
 ir = json.loads(init_res)
+# print('ir',ir)
 cur_cd = ir['cooldown']
 cur_room = ir['room_id']
 time.sleep(cur_cd)
@@ -317,9 +318,9 @@ while cur_gold < 1000:
             time.sleep(cd)
 
             for item in items:
-                items_to_sell = ['tiny treasure', 'small treasure']
-                if item not in items_to_sell:
-                    continue
+                # items_to_sell = ['tiny treasure', 'small treasure']
+                # if item not in items_to_sell:
+                #     continue
                 #sell = {"name":item}
                 confirm_sell = {"name": item, "confirm": "yes"}
                 sell_res = requests.post(

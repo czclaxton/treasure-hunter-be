@@ -1,15 +1,10 @@
-# class Graph():
-#     def __init__(self):
-#         self.vertices = {}
-#     def add_vertice(self, vertex_id):
-#         self.vertices[vertex_id] = {'n': '?', 's': '?', 'w': '?', 'e': '?'}
-#     def add_edge(self, v1, v2):
-#         if v1 in self.vertices and v2 in self.vertices:
-#             self.vertices[v1].add(v2)
-#         else:
-#             raise IndexError('That vertex does not exist')
-#     def get_neighbors(self, vertex_id):
-#         return self.vertices[vertex_id]
+base_url = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/'
+init_url = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/init/'
+take_url = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/take/'
+sell_url = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/sell/'
+move_url = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/move/'
+status_url = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/status/'
+examine_url = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/examine/'
 
 class Queue():
     def __init__(self):
@@ -17,10 +12,11 @@ class Queue():
     def enqueue(self, value):
         self.queue.append(value)
     def dequeue(self):
-        if self.size() > 0:
+        if self.size > 0:
             return self.queue.pop(0)
         else:
             return None
+    @property
     def size(self):
         return len(self.queue)
 
@@ -234,3 +230,8 @@ class Graph:
                 if new_path:
                     return new_path
         return None
+    
+    def __repr__(self):
+        return str(self.vertices)
+
+

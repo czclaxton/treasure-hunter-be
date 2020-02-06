@@ -18,7 +18,7 @@ status_url = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/status/'
 examine_url = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/examine/'
 
 
-param = {'Authorization': 'Token e79b12bf4f51c748e9edf3b395ad368c91c89ced'}
+param = {'Authorization': 'Token e91091807dc50e6bf25669440c1b4fc3ebaf2aaa'}
 
 init_response = requests.get(init_url, headers=param)
 init_res = init_response.text
@@ -152,3 +152,7 @@ cd = er['cooldown']
 message = er['description']
 time.sleep(cd)
 print(message)
+
+
+
+

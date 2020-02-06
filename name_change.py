@@ -75,7 +75,7 @@ ep_status = 'status/'
 ep_init = 'init/'
 ep_move = 'move/'
 
-param = {'Authorization': 'Token e79b12bf4f51c748e9edf3b395ad368c91c89ced'}
+param = {'Authorization': 'Token e91091807dc50e6bf25669440c1b4fc3ebaf2aaa'}
 
 init_response = requests.get(adv_url+ep_init, headers=param)
 init_res = init_response.text
@@ -133,7 +133,7 @@ for move in dirs_to_pirate:
 print('here')
 # fill in your name
 change_name_url = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/change_name/'
-name_data = {"name": "[ConnorC]", "confirm": "aye"}
+name_data = {"name": "[ayunas]", "confirm": "aye"}
 change_name_response = requests.post(
     change_name_url, headers=param, json=name_data)
 cn_res = change_name_response.text
