@@ -10,7 +10,6 @@ graph_verts = pickle.load(open('graph_vertices.p', 'rb'))
 # room_data=pickle.load(open('room_data.p','rb'))
 complete_graph.vertices = graph_verts
 
-
 def bfs(graph, current_room):
 
     queue = Queue()

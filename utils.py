@@ -7,6 +7,7 @@ sell_url = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/sell/'
 move_url = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/move/'
 status_url = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/status/'
 examine_url = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/examine/'
+balance_url = 'https://lambda-treasure-hunt.herokuapp.com/api/bc/get_balance/'
 
 class Graph:
 
@@ -40,7 +41,9 @@ class Graph:
 
             if vert not in visited:
                 if vert == end_vert:
-                    return path
+                    new_path = list(path)
+                    new_path.append(vert)
+                    return new_path
                 visited.add(vert)
 
             # print('graph vert', list(self.vertices[vert].values()))

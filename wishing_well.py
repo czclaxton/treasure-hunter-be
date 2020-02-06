@@ -18,7 +18,7 @@ status_url = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/status/'
 examine_url = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/examine/'
 
 
-param = {'Authorization': 'Token e91091807dc50e6bf25669440c1b4fc3ebaf2aaa'}
+param = {'Authorization': 'Token xxx'}
 
 init_response = requests.get(init_url, headers=param)
 init_res = init_response.text
