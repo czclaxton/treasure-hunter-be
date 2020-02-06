@@ -1,3 +1,5 @@
+import requests,json
+
 base_url = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/'
 init_url = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/init/'
 take_url = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/take/'
@@ -6,39 +8,47 @@ move_url = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/move/'
 status_url = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/status/'
 examine_url = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/examine/'
 
-class Queue():
-    def __init__(self):
-        self.queue = []
-    def enqueue(self, value):
-        self.queue.append(value)
-    def dequeue(self):
-        if self.size > 0:
-            return self.queue.pop(0)
-        else:
-            return None
-    @property
-    def size(self):
-        return len(self.queue)
-
-class Stack():
-    def __init__(self):
-        self.stack = []
-    def push(self, value):
-        self.stack.append(value)
-    def pop(self):
-        if self.size() > 0:
-            return self.stack.pop()
-        else:
-            return None
-    def size(self):
-        return len(self.stack)
-
 class Graph:
 
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
-    def __init__(self):
-        self.vertices = {}
+    def __init__(self,vertices={}):
+        self.vertices = vertices
         self.data = []
+
+    def get_current_room(self,token):
+        auth = {'Authorization': f"Token {token}"}
+        response = requests.get(f"{base_url}/init", headers=auth)
+        
+        if response.status_code == 200:
+            print('Successful Response ', response.status_code)
+        elif response.status_code == 404:
+            print('Not Found')
+
+        return json.loads(response.text)  #loads is for a string.  json.load is for a file.  
+
+    def bfs_move(self,start_vert,end_vert):
+        print('bfs move from:',start_vert,'to',end_vert)
+        queue = Queue()
+        queue.enqueue([start_vert])
+        visited = set()
+
+        while queue.size > 0:
+            path = queue.dequeue()
+            print('path', path)
+            vert = path[-1]
+            print('latest vert in dequeued path', vert)
+
+            if vert not in visited:
+                if vert == end_vert:
+                    return path
+                visited.add(vert)
+
+            # print('graph vert', list(self.vertices[vert].values()))
+            waze = list(self.vertices[vert].values())
+            for neighbor in waze:
+                new_path = list(path)
+                new_path.append(neighbor)
+                queue.enqueue(new_path)
 
     def load_data(self,dictionary):
         self.vertices = dictionary
@@ -128,6 +138,8 @@ class Graph:
         for neighb_vert in self.vertices[starting_vertex]:
             if neighb_vert not in visited:
                 self.dft_recursive(neighb_vert, visited)
+    
+   
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -235,3 +247,29 @@ class Graph:
         return str(self.vertices)
 
 
+class Queue():
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if self.size > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    @property
+    def size(self):
+        return len(self.queue)
+
+class Stack():
+    def __init__(self):
+        self.stack = []
+    def push(self, value):
+        self.stack.append(value)
+    def pop(self):
+        if self.size() > 0:
+            return self.stack.pop()
+        else:
+            return None
+    def size(self):
+        return len(self.stack)
