@@ -42,7 +42,7 @@ def proof_of_work(block):
     in an effort to find a number that is a valid proof
     :return: A valid proof for the provided block
     """
-    block_string = json.dumps(block, sort_keys=True)
+    block_string = json.dumps(block, sort_keys=True) 
     proof = 0
     while valid_proof(block_string, proof) is False:
         proof += 1
@@ -63,7 +63,7 @@ def valid_proof(block_string, proof):
     guess = f"{block_string}{proof}".encode()
     guess_hash = hashlib.sha256(guess).hexdigest()
     return guess_hash[:difficulty] == '0'*difficulty
-    # return guess_hash[:3] == "000"
+    
 
 
 if __name__ == '__main__':
