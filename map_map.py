@@ -5,8 +5,6 @@ import random
 import time
 import pickle
 
-
-
 def bfs(graph, current_room):
     queue = Queue()
     #push the starting vertex ID as list
@@ -61,7 +59,7 @@ ep_status = 'status/'
 ep_init = 'init/'
 ep_move = 'move/'
 
-param = {'Authorization': 'Token xxxx'}
+param = {'Authorization': 'Token e91091807dc50e6bf25669440c1b4fc3ebaf2aaa'}
 
 # status_response = requests.post(adv_url+ep_status, headers=param)
 # stat_r = status_response.text
@@ -82,9 +80,8 @@ param = {'Authorization': 'Token xxxx'}
 
 init_response = requests.get(adv_url+ep_init, headers=param)
 init_res = init_response.text
-ir = json.loads(init_res)
-
-
+ir = json.loads(init_res) #ir = initial response.  the current room data
+print(ir)
 cur_room = ir['room_id']
 cur_coords = ir['coordinates']
 cur_exits = ir['exits']
@@ -97,6 +94,7 @@ graph = Graph()
 
 graph.add_vertex(cur_room, cur_exits)
 visited.add(cur_room)
+
 
 while len(visited) < 500:
     try:

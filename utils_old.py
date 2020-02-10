@@ -1,15 +1,23 @@
-import json,os,sys,time,requests
+import requests,json,os,sys,time
 
-adv_url = 'https://lambda-treasure-hunt.herokuapp.com/api/adv'
-visited = set()
+base_url = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/'
+init_url = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/init/'
+take_url = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/take/'
+sell_url = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/sell/'
+move_url = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/move/'
+status_url = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/status/'
+examine_url = 'https://lambda-treasure-hunt.herokuapp.com/api/adv/examine/'
+balance_url = 'https://lambda-treasure-hunt.herokuapp.com/api/bc/get_balance/'
+adv_url ='https://lambda-treasure-hunt.herokuapp.com/api/adv'
 
-def get_auth():
-    from dotenv import load_dotenv
-    load_dotenv()
-    token = os.getenv('API_KEY')
-    return {'Authorization': f'Token {token}'}
 
-auth = get_auth()
+# def get_auth():
+#     from dotenv import load_dotenv
+#     load_dotenv()
+#     token = os.getenv('API_KEY')
+#     return {'Authorization': f'Token {token}'}
+
+# auth = get_auth()
 
 def get_current_room():
     res = requests.get(f"{adv_url}/init", headers=auth)
@@ -37,6 +45,18 @@ def move(way):
     print('cooling down. please wait...',new_room['cooldown'])
     time.sleep(new_room['cooldown'])
     return new_room
+
+def flip_way(way):
+    if way == 'n':
+        return 's'
+    if way == 's':
+        return 'n'
+    if way == 'e':
+        return 'w'
+    if way == 'w':
+        return 'e'
+
+visited = set()
 
 def explore_exits(room):
     # room = get_current_room()
@@ -67,16 +87,6 @@ def explore_exits(room):
         prev = move(flip)
         waze,roomz = [*zip(*graph.vertices[room_id].items())]  #the current room's exits and neighbors
     return roomz
-
-def flip_way(way):
-    if way == 'n':
-        return 's'
-    if way == 's':
-        return 'n'
-    if way == 'e':
-        return 'w'
-    if way == 'w':
-        return 'e'
 
 class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
@@ -215,6 +225,8 @@ class Graph:
             if neighb_vert not in visited:
                 self.dft_recursive(neighb_vert, visited)
 
+
+
     def bfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing the shortest path from
@@ -260,6 +272,7 @@ class Graph:
                     new_path.append(neighbor)
                     queue.enqueue(new_path)
 
+
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
@@ -291,6 +304,7 @@ class Graph:
                     new_path.append(neighbor)
                     stack.push(new_path)
 
+
     def dfs_recursive(self, starting_vertex, target, visited=None, path=None):
         """
         Return a list containing a path from
@@ -317,6 +331,7 @@ class Graph:
 
     def __repr__(self):
         return str(self.vertices)
+
 
 class Queue():
     def __init__(self):

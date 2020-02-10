@@ -11,7 +11,6 @@ graph_verts = pickle.load(open('graph_vertices.p', 'rb'))
 complete_graph.vertices = graph_verts
 
 def bfs(graph, current_room):
-
     queue = Queue()
     # push the starting vertex ID as list
     queue.enqueue([current_room])

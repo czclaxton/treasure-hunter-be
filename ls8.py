@@ -1,5 +1,5 @@
 
-from operations import LDI,PRN,TEST1,TEST2,TEST3,TEST4,TEST5,CMP,JEQ,JNE,JMP,HLT,NOT
+from instructions import *
 import sys
 from itertools import dropwhile
 
@@ -10,6 +10,7 @@ class LS8:
         self.reg = [0]*8  #ls8 has 8 registers for usege
         self.sp = -1 #initial stack pointer at the end of the ram
         self.fl = 0b00000000 #00000LGE L = Less, G = Greater E = Equal
+        self.branch = {'LDI': 0b10000010: 'LDI', 0b01000111 : 'PRN', 0b10100111 : 'CMP', 0b01010101 : 'JEQ', 0b01010110 : 'JNE', 0b01010100 : 'JMP', 0b00000001 : 'HLT', 0b10010110 : 'NOT', 0b10101000 : 'AND', 0b01001000 : 'PRA'}
 
     def __validate__(self):
         if len(sys.argv) != 2:
@@ -26,6 +27,7 @@ class LS8:
     
     def load(self):
         program = self.__validate__()
+        
         address = 0
         instructions = []
 
@@ -39,55 +41,6 @@ class LS8:
         for byte in instructions:
             self.ram[address] = byte
             address += 1
-
-    # def load(self):
-    #     program = self.__validate__()
-    #     address = 0
-    #     instructions = []
-        
-    #     while True:
-    #         line = program.readline()
-    #         if not line.startswith('#'):
-    #             break
-    #     print('first line',line)
-
-        # byte,add = line.split('#')
-        # print(byte)
-        # instructions.append(int(byte,2))
-        # for line in program:
-        #     print('line', line)
-        #     if line == '\n':
-        #         continue
-        #     if '#' in line:
-        #         byte,comment = line.split(' #')
-        #         instructions.append(int(byte.strip(),2))
-        #     else:
-        #         instructions.append(int(line.strip(),2))
-    #     print('instructions', instructions)
-    #     for byte in instructions:
-    #         self.ram[address] = byte
-    #         address += 1
-    #     print('ram after loading', self.ram)
-
-    # def load(self):
-    #     program = self.__validate__()
-    #     address = 0
-    #     instructions = []
-
-    #     for line in program:
-    #         if line.startswith('#'):
-    #             continue
-    #         if line == '\n':
-    #             continue
-    #         if '#' in line:
-    #             byte,comment = line.split(' #')
-    #             instructions.append(int(byte.strip(),2))
-    #         else:
-    #             instructions.append(int(line.strip(),2))
-    #     print('instructions', instructions)
-    #     for byte in instructions:
-    #         self.ram[address] = byte
-    #         address += 1
         
     def not_bitwise(self,n):
         binary = f"{n:08b}"
@@ -146,6 +99,7 @@ class LS8:
         while halted == False:
             instruction = self.ram[self.pc]
             # print(f'instruction', instruction, 'pc:', self.pc)
+            self.branch[instruction]
 
             if instruction == LDI:
                 r_address = self.ram[self.pc + 1]
@@ -214,6 +168,7 @@ class LS8:
             
             else:
                 print(f"error occured at program counter index: {self.pc}")
+                print(f"unrecognized instruction: {self.ram[self.pc]} {bin(self.ram[self.pc])}")
                 raise IndexError
                 sys.exit()
 
